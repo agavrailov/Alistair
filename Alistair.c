@@ -36,10 +36,11 @@ function run()
 		set(TESTNOW, PLOTNOW, BALANCE);
 		if(is(TRAINMODE)) set(PARAMETERS+FACTORS);
 		NumCores	=	-1;
+		assetList	=	"AssetsAlistair.csv";
 	}
 	MonteCarlo		=	0;
-	StartDate		=	2016;
-	EndDate			=	2020;
+	StartDate		=	2019;
+	EndDate			=	2019;
 	BarPeriod 		=	60;
 	LookBack 		=	1500; 
 	var TimePeriod	=	optimize (1000,100,1500,100);
@@ -54,11 +55,11 @@ function run()
 	Trail 			=	tr*ATR(20); 
 	// Capital 	=	4000;
 	// Margin 	=	0.2 * OptimalFLong * Capital * sqrt(1 + (WinTotal-LossTotal)/Capital);
-	while(asset(loop("EUR/USD")))	//,"USD/JPY")))
-	while(algo(loop("BUY","SELL")))
-    switch (Algo)
-	{
-		case	"BUY"	: BuyAlgo(EMA_H, EMA_L, TimePeriod, tp, tr, sl);
-		case 	"SELL"	: SellAlgo(EMA_H, EMA_L, TimePeriod, tp, tr, sl);
-	}
+	while(asset(loop(Assets)))
+		while(algo(loop("BUY","SELL")))
+			switch (Algo)
+			{
+				case	"BUY"	: BuyAlgo(EMA_H, EMA_L, TimePeriod, tp, tr, sl);
+				case 	"SELL"	: SellAlgo(EMA_H, EMA_L, TimePeriod, tp, tr, sl);
+		}
 }
