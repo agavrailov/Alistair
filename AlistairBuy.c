@@ -9,12 +9,12 @@ function run()
 		if(is(TRAINMODE)) set(PARAMETERS+FACTORS);
 	}
 	
-	var TimePeriod	=	1000;	//optimize (1000,200,1000,100);
+	var TimePeriod	=	250; optimize (1000,100,1500,50);
 	MonteCarlo		=	0;
 	StartDate		=	2016;
 	EndDate			=	2020;
 	BarPeriod 		=	15;
-	LookBack 		=	1000; 
+	LookBack 		=	1500; 
 	var tp			=	1;	//optimize(1,0,3,0.2);	//TakeProfit
 	var tr 			=	1; 	//optimize(0,0,1,0.1);			//Trail
 	var sl 			=	0; 		//optimize(10,1,20,1);	//Допълнително отстояние от най-ниската цена в периода
