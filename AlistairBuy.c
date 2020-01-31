@@ -1,6 +1,6 @@
 if(is(INITRUN)) {
 		// #include "Strategy\Alistair\include\objective.h";	//трябва да стои извън run()!
-		#include "Strategy\Alistair\include\objective_R2.h";
+		// #include "Strategy\Alistair\include\objective_R2.h";
 	}
 function run() 
 {
@@ -10,7 +10,7 @@ function run()
 		if(is(TRAINMODE)) set(PARAMETERS+FACTORS);
 	}
 	
-	var TimePeriod	=	optimize (250,100,1500,100);
+	var TimePeriod	=	900;	//optimize (250,100,1500,100);
 	MonteCarlo		=	0;
 	StartDate		=	2016;
 	EndDate			=	2020;
