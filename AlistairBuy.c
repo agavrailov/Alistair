@@ -1,23 +1,23 @@
 if(is(INITRUN)) {
-		set(TESTNOW, PLOTNOW, BALANCE);
-		if(is(TRAINMODE)) set(PARAMETERS+FACTORS);
-		static bool b1,b2,b3,b4,s1,s2,s3,s4	=	false;
-		#include "Strategy\Alistair\include\objective.h";
+		#include "Strategy\Alistair\include\objective.h";	//трябва да стои извън run()!
 	}
-
 function run() 
 {
+	static bool b1,b2,b3,b4,s1,s2,s3,s4	=	false;	//трябва да стои извън if(is(INITRUN))
+	if(is(INITRUN)) {								//трябва да стои вътре във run()!
+		set(TESTNOW, PLOTNOW, BALANCE);
+		if(is(TRAINMODE)) set(PARAMETERS+FACTORS+LEAN+FAST);
+	}
 	
-	StartDate		=	2016;
+	StartDate		=	2019;
 	EndDate			=	2019;
 	var tp			=	optimize(3,0,3,0.2);		//TakeProfit
 	var tr 			=	optimize(1,0,2,0.1);		//Trail
-	var TimePeriod	=	optimize (1000,200,800,100);
-
 	var sl 			=	0; //optimize(10,1,20,1);	//Допълнително отстояние от най-ниската цена в периода
-	BarPeriod 		=	15;
+	var TimePeriod	=	optimize (1000,200,800,100);
+	BarPeriod 		=	5;
 
-	NumWFOCycles 	=	(EndDate-StartDate);
+	// NumWFOCycles 	=	(EndDate-StartDate);
 	NumCores 		=	4;
 	LookBack 		=	1000;
 
