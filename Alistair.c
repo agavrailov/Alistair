@@ -1,8 +1,5 @@
-if(is(INITRUN)) {
-		// #include "Strategy\Alistair\include\objective.h";	//трябва да стои извън run()!
-		// #include "Strategy\Alistair\include\objective_R2.h";
-	}
 static bool b1,b2,b3,b4,s1,s2,s3,s4	=	false;	//трябва да стои извън if(is(INITRUN))
+	
 function BuyAlgo(var EMA_H, EMA_L, TimePeriod, tp, tr, sl)	// Buy signal
 {
 	if (price() < LL(TimePeriod,1))	b1 = true;	//пресичане на най-ниската стойност
@@ -14,8 +11,8 @@ function BuyAlgo(var EMA_H, EMA_L, TimePeriod, tp, tr, sl)	// Buy signal
 	if (b2 and (priceOpen() > EMA_H))	b3 = true;	//затворен бар над на MA5(High)
 	if (b3 and priceClose() < EMA_L)	b4 = true;	//затворен бар под на MA5(Low)
 	if (b4) {		//всички условия налице
-		TakeProfit = tp*ATR(20);
-		Trail = tr*ATR(20);
+		TakeProfit = tp*ATR(20);  //може да се изнесат в главната функция!!!
+		Trail = tr*ATR(20); //може да се изнесат в главната функция!!!
 		enterLong();
 		b2=b3=b4 = false;	
 	}
@@ -42,8 +39,9 @@ function run()
 	if(is(INITRUN)) {								//трябва да стои вътре във run()!
 		set(TESTNOW, PLOTNOW, BALANCE);
 		if(is(TRAINMODE)) set(PARAMETERS+FACTORS);
+		NumCores	=	3;
 	}
-	var TimePeriod	=	900;	//optimize (250,100,1500,100);
+	var TimePeriod	=	optimize (250,100,1500,100);
 	MonteCarlo		=	0;
 	StartDate		=	2016;
 	EndDate			=	2020;
@@ -53,14 +51,12 @@ function run()
 	var tr 			=	1; //optimize(0,0,1,0.1);			//Trail
 	var sl 			=	0; 		//optimize(10,1,20,1);	//Допълнително отстояние от най-ниската цена в периода
 	NumWFOCycles 	=	3 * (EndDate-StartDate);
-	NumCores 		=	3; //не работи?
 	
 	var EMA_H = EMA(series(priceHigh()),5);
 	var EMA_L = EMA(series(priceLow()),5);
 	// Capital 	=	4000;
 	// Margin 	=	0.2 * OptimalFLong * Capital * sqrt(1 + (WinTotal-LossTotal)/Capital);
-
-while(asset(loop("EUR/USD")))	//,"USD/JPY")))
+	while(asset(loop("EUR/USD")))	//,"USD/JPY")))
 	while(algo(loop("BUY","SELL")))
     switch (Algo)
 	{
