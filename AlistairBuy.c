@@ -3,12 +3,8 @@ if(is(INITRUN)) {
 		// #include "Strategy\Alistair\include\objective_R2.h";
 	}
 static bool b1,b2,b3,b4,s1,s2,s3,s4	=	false;	//трябва да стои извън if(is(INITRUN))
-	function BuyAlgo(var EMA_H, EMA_L, TimePeriod, tp, tr, sl)	// Buy signal
+function BuyAlgo(var EMA_H, EMA_L, TimePeriod, tp, tr, sl)	// Buy signal
 {
-	// var tp = 3; //optimize(3,0,3,0.2);	 
-	// var tr = 0.1; //optimize(0.5,0,1,0.1);	 
-	// var sl = 0; //optimize(10,1,20,1);
-	// var TimePeriod = 1000; //optimize (400,200,800,100); 
 	if (price() < LL(TimePeriod,1))	b1 = true;	//пресичане на най-ниската стойност
 	if (price() > HH(TimePeriod,1))	b1 = false;	//пресичане на най-високата стойност
 	if (b1 and !b3 and (priceOpen() < EMA_L)) {	//затворен бар под на MA5(Low)
@@ -22,6 +18,23 @@ static bool b1,b2,b3,b4,s1,s2,s3,s4	=	false;	//трябва да стои изв
 		Trail = tr*ATR(20);
 		enterLong();
 		b2=b3=b4 = false;	
+	}
+}
+function SellAlgo(var EMA_H, EMA_L, TimePeriod, tp, tr, sl)	// Buy signal
+{
+	if (price() > HH(TimePeriod,1))	s1 = true;	//пресичане на най-ниската стойност
+	if (price() < LL(TimePeriod,1))	s1 = false;	//пресичане на най-високата стойност
+	if (s1 and !s3 and (priceOpen() > EMA_H)) {	//затворен бар под на MA5(Low)
+		s2 = true;
+		Stop = priceLow(1) + sl*PIP;	//стопа е там където е b1 + 10 пипа
+	}
+	if (s2 and (priceOpen() < EMA_L))	s3 = true;	//затворен бар над на MA5(High)
+	if (s3 and priceClose() > EMA_H)	s4 = true;	//затворен бар под на MA5(Low)
+	if (s4) {		//всички условия налице
+		TakeProfit = tp*ATR(20);
+		Trail = tr*ATR(20);
+		enterShort();
+		s2=s3=s4 = false;	
 	}
 }
 function run() 
@@ -48,10 +61,10 @@ function run()
 	// Margin 	=	0.2 * OptimalFLong * Capital * sqrt(1 + (WinTotal-LossTotal)/Capital);
 
 while(asset(loop("EUR/USD")))	//,"USD/JPY")))
-	while(algo(loop("BUY")))
+	while(algo(loop("BUY","SELL")))
     switch (Algo)
 	{
 		case	"BUY"	: BuyAlgo(EMA_H, EMA_L, TimePeriod, tp, tr, sl);
-		// case 	"SELL"	: SellAlgo();
+		case 	"SELL"	: SellAlgo(EMA_H, EMA_L, TimePeriod, tp, tr, sl);
 	}
 }
