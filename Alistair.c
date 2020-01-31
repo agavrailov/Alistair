@@ -34,17 +34,17 @@ function run()
 	if(is(INITRUN)) {								//трябва да стои вътре във run()!
 		set(TESTNOW, PLOTNOW, BALANCE);
 		if(is(TRAINMODE)) set(PARAMETERS+FACTORS);
-		NumCores	=	-1;
+		NumCores	=	3;
 		assetList	("History\\AssetsAlistair.csv",0);
 	}
 	MonteCarlo		=	0;
 	StartDate		=	2017;
 	EndDate			=	2019;
-	BarPeriod 		=	60;
+	BarPeriod 		=	15;
 	LookBack 		=	1500; 
-	var TimePeriod	=	optimize (1000,100,1500,100);
-	var tp			=	3; //optimize(1,0,3,0.2);	//TakeProfit
-	var tr 			=	0.1; //optimize(0,0,1,0.1);			//Trail
+	var TimePeriod	=	optimize (1000,100,1400,100);
+	var tp			=	optimize(1,0,2,0.2);	//TakeProfit
+	var tr 			=	optimize(0,0,1,0.1);			//Trail
 	var sl 			=	0; 		//optimize(10,1,20,1);	//Допълнително отстояние от най-ниската цена в периода
 	NumWFOCycles 	=	2 * (EndDate-StartDate);
 	
@@ -52,10 +52,9 @@ function run()
 	var EMA_L = EMA(series(priceLow()),5);
 	TakeProfit 		= 	tp*ATR(20); 
 	Trail 			=	tr*ATR(20); 
-	Capital 	=	4000;
-	Margin 	=	0.2 * OptimalF * Capital * sqrt(1 + (WinTotal-LossTotal)/Capital);
+	// Capital 		=	4000;
+	// Margin 		=	0.2 * OptimalF * Capital * sqrt(1 + (WinTotal-LossTotal)/Capital);
 	while(asset(loop(Assets))) {
-		// b1=b2=b3=b4=s1=s2=s3=s4	=	false;
 		while(algo(loop("BUY","SELL")))
 			switch (Algo) {
 				case	"BUY"	: BuyAlgo(EMA_H, EMA_L, TimePeriod, tp, tr, sl);
