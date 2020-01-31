@@ -9,7 +9,7 @@ function run()
 		if(is(TRAINMODE)) set(PARAMETERS+FACTORS);
 	}
 	
-	var TimePeriod	=	800;	//optimize (1000,200,1000,100);
+	var TimePeriod	=	1000;	//optimize (1000,200,1000,100);
 	MonteCarlo		=	0;
 	StartDate		=	2016;
 	EndDate			=	2020;
