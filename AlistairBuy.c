@@ -1,12 +1,13 @@
 if(is(INITRUN)) {
-	set(TESTNOW, PLOTNOW, LEAN, BALANCE, FAST);
-	if(is(TRAINMODE)) set(PARAMETERS+FACTORS);
-	static bool b1,b2,b3,b4,s1,s2,s3,s4=false;
-	//#include "Strategy\Alistair\include\objective.h"
-}
+		set(TESTNOW, PLOTNOW, BALANCE);
+		if(is(TRAINMODE)) set(PARAMETERS+FACTORS);
+		static bool b1,b2,b3,b4,s1,s2,s3,s4	=	false;
+		#include "Strategy\Alistair\include\objective.h";
+	}
+
 function run() 
 {
-	// set(PARAMETERS+TESTNOW+PLOTNOW+FACTORS);
+	
 	StartDate		=	2016;
 	EndDate			=	2019;
 	var tp			=	optimize(3,0,3,0.2);		//TakeProfit
@@ -16,7 +17,7 @@ function run()
 	var sl 			=	0; //optimize(10,1,20,1);	//Допълнително отстояние от най-ниската цена в периода
 	BarPeriod 		=	15;
 
-	// NumWFOCycles 	=	(EndDate-StartDate);
+	NumWFOCycles 	=	(EndDate-StartDate);
 	NumCores 		=	4;
 	LookBack 		=	1000;
 
