@@ -5,10 +5,9 @@ static bool b1,b2,b3,b4,s1,s2,s3,s4	=	false;	//трябва да стои изв
 int TrailingStop() { // TMF that adjusts the stop in a special way 
 	if(TradeProfit > 0)	// adjust the stop only when the trade is in profit  
 		TradeStopLimit = max(TradeStopLimit,LL(3));	// place the stop at the lowest bottom of the previous 3 candles
-	plot("Stop",TradeStopLimit,MINV,BLACK);	// plot a line to make the stop limit visible in the chart 
+	// plot("Stop",TradeStopLimit,MINV,BLACK);	// plot a line to make the stop limit visible in the chart 
 	return 0;	// return 0 for checking the limits  
 }
-	
 function BuyAlgo(var EMA_H, EMA_L, TimePeriod, tp, tr)	// Buy signal
 {
 	if (price() < LL(TimePeriod,1))	b1 = true;	//пресичане на най-ниската стойност
@@ -41,7 +40,7 @@ function SellAlgo(var EMA_H, EMA_L, TimePeriod, tp, tr)	// Buy signal
 	if (s4) {		//всички условия налице
 		enterShort(TrailingStop);
 		s2=s3=s4 = false;
-		stop1	=	priceHigh(1)
+		// stop1	=	priceHigh(1)
 	}
 }
 function run() 
@@ -57,22 +56,23 @@ function run()
 	EndDate			=	2019;
 	BarPeriod 		=	240;
 	LookBack 		=	1000; 
-	var TimePeriod	=	200; //optimize (1000,100,1400,100);
-	var tp			=	optimize(1,0,2,0.2);	//TakeProfit
+	var TimePeriod	=	20; //optimize (1000,100,1400,100);
+	var tp			=	optimize(3,0,2,0.2);	//TakeProfit
 	var tr 			=	optimize(1,0,1,0.1);			//Trail
-	// NumWFOCycles 	=	3 * (EndDate-StartDate);
+	NumWFOCycles 	=	(EndDate-StartDate);
 	
 	var EMA_H 	= EMA(series(priceHigh()),5);
 	var EMA_L 	= EMA(series(priceLow()),5);
 	TakeProfit 		= 	tp*ATR(20); 
 	Trail 			=	tr*ATR(20); 
+	Stop			=	TakeProfit/3;
 	// Capital 		=	4000;
 	// Margin 		=	0.2 * OptimalF * Capital * sqrt(1 + (WinTotal-LossTotal)/Capital);
 	while(asset(loop(Assets))) {
 		while(algo(loop("BUY","SELL")))
 			switch (Algo) {
-				// case	"BUY"	: BuyAlgo(EMA_H, EMA_L, TimePeriod, tp, tr);
-				 case 	"SELL"	: SellAlgo(EMA_H, EMA_L, TimePeriod, tp, tr);
+				case	"BUY"	: BuyAlgo(EMA_H, EMA_L, TimePeriod, tp, tr);
+				case 	"SELL"	: SellAlgo(EMA_H, EMA_L, TimePeriod, tp, tr);
 			}
 	}
 #include "Strategy\include\plot.h"		//чертае сигналите
