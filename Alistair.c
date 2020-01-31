@@ -11,8 +11,6 @@ function BuyAlgo(var EMA_H, EMA_L, TimePeriod, tp, tr, sl)	// Buy signal
 	if (b2 and (priceOpen() > EMA_H))	b3 = true;	//затворен бар над на MA5(High)
 	if (b3 and priceClose() < EMA_L)	b4 = true;	//затворен бар под на MA5(Low)
 	if (b4) {		//всички условия налице
-		TakeProfit = tp*ATR(20);  //може да се изнесат в главната функция!!!
-		Trail = tr*ATR(20); //може да се изнесат в главната функция!!!
 		enterLong();
 		b2=b3=b4 = false;	
 	}
@@ -28,8 +26,6 @@ function SellAlgo(var EMA_H, EMA_L, TimePeriod, tp, tr, sl)	// Buy signal
 	if (s2 and (priceOpen() < EMA_L))	s3 = true;	//затворен бар над на MA5(High)
 	if (s3 and priceClose() > EMA_H)	s4 = true;	//затворен бар под на MA5(Low)
 	if (s4) {		//всички условия налице
-		TakeProfit = tp*ATR(20);
-		Trail = tr*ATR(20);
 		enterShort();
 		s2=s3=s4 = false;	
 	}
@@ -39,21 +35,23 @@ function run()
 	if(is(INITRUN)) {								//трябва да стои вътре във run()!
 		set(TESTNOW, PLOTNOW, BALANCE);
 		if(is(TRAINMODE)) set(PARAMETERS+FACTORS);
-		NumCores	=	3;
+		NumCores	=	-1;
 	}
-	var TimePeriod	=	optimize (250,100,1500,100);
+	var TimePeriod	=	1000; 	// optimize (1000,100,1500,100);
 	MonteCarlo		=	0;
 	StartDate		=	2016;
 	EndDate			=	2020;
-	BarPeriod 		=	15;
+	BarPeriod 		=	240;
 	LookBack 		=	1500; 
-	var tp			=	1; //optimize(1,0,3,0.2);	//TakeProfit
-	var tr 			=	1; //optimize(0,0,1,0.1);			//Trail
+	var tp			=	3; //optimize(1,0,3,0.2);	//TakeProfit
+	var tr 			=	0.1; //optimize(0,0,1,0.1);			//Trail
 	var sl 			=	0; 		//optimize(10,1,20,1);	//Допълнително отстояние от най-ниската цена в периода
-	NumWFOCycles 	=	3 * (EndDate-StartDate);
+	// NumWFOCycles 	=	3 * (EndDate-StartDate);
 	
 	var EMA_H = EMA(series(priceHigh()),5);
 	var EMA_L = EMA(series(priceLow()),5);
+	TakeProfit 		= 	tp*ATR(20); 
+	Trail 			=	tr*ATR(20); 
 	// Capital 	=	4000;
 	// Margin 	=	0.2 * OptimalFLong * Capital * sqrt(1 + (WinTotal-LossTotal)/Capital);
 	while(asset(loop("EUR/USD")))	//,"USD/JPY")))
