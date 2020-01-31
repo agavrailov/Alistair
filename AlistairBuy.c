@@ -1,5 +1,5 @@
 if(is(INITRUN)) {
-		 #include "Strategy\Alistair\include\objective.h";	//трябва да стои извън run()!
+		// #include "Strategy\Alistair\include\objective.h";	//трябва да стои извън run()!
 	}
 function run() 
 {
@@ -10,16 +10,16 @@ function run()
 	}
 	
 	var TimePeriod	=	800;	//optimize (1000,200,1000,100);
-	
-	StartDate		=	2017;
+	MonteCarlo		=	0;
+	StartDate		=	2016;
 	EndDate			=	2020;
 	BarPeriod 		=	15;
 	LookBack 		=	1000; 
-	var tp			=	3;		//optimize(3,0,3,0.2);	//TakeProfit
-	var tr 			=	0.4;	//optimize(0,0,1,0.1);			//Trail
+	var tp			=	1;	//optimize(1,0,3,0.2);	//TakeProfit
+	var tr 			=	1; 	//optimize(0,0,1,0.1);			//Trail
 	var sl 			=	0; 		//optimize(10,1,20,1);	//Допълнително отстояние от най-ниската цена в периода
 	// NumWFOCycles 	=	3* (EndDate-StartDate);
-	NumCores 		=	4;
+	NumCores 		=	3;
 	
 	var EMA_H = EMA(series(priceHigh()),5);
 	var EMA_L = EMA(series(priceLow()),5);
