@@ -15,8 +15,8 @@ function run()
 	EndDate			=	2020;
 	BarPeriod 		=	15;
 	LookBack 		=	1500; 
-	var tp			=	1.1; //optimize(1,0,3,0.2);	//TakeProfit
-	var tr 			=	1.2; //optimize(0,0,1,0.1);			//Trail
+	var tp			=	1; //optimize(1,0,3,0.2);	//TakeProfit
+	var tr 			=	1; //optimize(0,0,1,0.1);			//Trail
 	var sl 			=	0; 		//optimize(10,1,20,1);	//Допълнително отстояние от най-ниската цена в периода
 	// NumWFOCycles 	=	3* (EndDate-StartDate);
 	NumCores 		=	3;
